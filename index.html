@@ -60,7 +60,7 @@
 
   .title {
     font-family: 'DM Serif Display', serif;
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 400;
     color: var(--text);
     letter-spacing: 0.01em;
@@ -143,6 +143,26 @@
     white-space: nowrap;
   }
 
+  #btn-fullscreen {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+    padding: 4px 8px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  #btn-fullscreen:active {
+    background: #F0F0F0;
+    color: var(--text);
+  }
+
 </style>
 </head>
 <body>
@@ -166,6 +186,8 @@
   <div class="actions">
     <button class="btn btn-clear" id="btn-clear">Löschen</button>
   </div>
+
+  <button id="btn-fullscreen">Vollbild</button>
 
 </div>
 
@@ -275,6 +297,19 @@ document.getElementById('btn-clear').addEventListener('click', () => {
   hasStrokes = false;
   hint.style.opacity = '1';
   redraw();
+});
+
+// ── Fullscreen ────────────────────────────────────────────────
+const btnFullscreen = document.getElementById('btn-fullscreen');
+btnFullscreen.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+});
+document.addEventListener('fullscreenchange', () => {
+  btnFullscreen.textContent = document.fullscreenElement ? 'Vollbild beenden' : 'Vollbild';
 });
 
 // ── Init ──────────────────────────────────────────────────────
